@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(dir:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(rustc:*)",
+      "Bash(cargo:*)",
+      "Bash(miyabi --version:*)",
+      "Bash(miyabi install:*)",
+      "Bash(git remote:*)",
+      "Bash(miyabi status:*)",
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "time-server",
+    "playwright-mcp",
+    "notion-mcp",
+    "lark-mcp"
+  ]
+}

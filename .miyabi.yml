@@ -1,0 +1,261 @@
+# Miyabi Configuration File
+# Defect Database Server (設計開発不具合データベース v4.0.0)
+
+version: "1.0"
+
+# Project Information
+project:
+  name: "defect-db-server"
+  description: "Design and Development Defect Database Management System"
+  language: "PHP"
+  framework: "Custom PHP MVC"
+  technologies:
+    - "PHP 8.0+"
+    - "MySQL 8.0"
+    - "Vanilla JavaScript"
+    - "GD Library (Image Processing)"
+  repository: "https://github.com/placeholder/defect-db-server"
+
+# Development Environment
+development:
+  local:
+    server: "localhost:8000"
+    command: "php -S localhost:8000"
+    root: "./"
+
+  production:
+    url: "https://navi.x0.com/CrossFix"
+    server: "Sakura Rental Server"
+    database:
+      host: "mysql3102.db.sakura.ne.jp"
+      name: "mikurus_defect-db"
+
+# Database Configuration
+database:
+  type: "mysql"
+  host: "mysql3102.db.sakura.ne.jp"
+  port: 3306
+  name: "mikurus_defect-db"
+  charset: "utf8mb4"
+  schema_file: "database/schema.sql"
+  migration_directory: "migration/"
+
+# Agent Configuration (Miyabi AI Agents)
+agents:
+  coordinator:
+    enabled: true
+    description: "Coordinates overall development workflow"
+
+  issue_agent:
+    enabled: true
+    description: "Analyzes GitHub Issues and creates tasks"
+
+  code_generator:
+    enabled: true
+    description: "Generates PHP code for backend features"
+    languages:
+      - "php"
+      - "javascript"
+    tests:
+      enabled: true
+      framework: "PHPUnit"
+
+  reviewer:
+    enabled: true
+    description: "Reviews code changes"
+    checks:
+      - "syntax"
+      - "security"
+      - "best_practices"
+
+  pr_agent:
+    enabled: true
+    description: "Manages pull requests"
+
+  deployment_agent:
+    enabled: true
+    description: "Handles deployment to Sakura server"
+
+  test_agent:
+    enabled: true
+    description: "Runs tests and validates functionality"
+
+# Repository Structure
+directories:
+  source:
+    - "api/"
+    - "classes/"
+    - "auth/"
+    - "js/"
+  config:
+    - "config/"
+  database:
+    - "database/"
+  uploads:
+    - "uploads/"
+  public:
+    - "index.php"
+    - ".htaccess"
+  tests:
+    - "tests/"
+  docs:
+    - "docs/"
+    - "CLAUDE.md"
+
+# File Patterns to Ignore
+exclude:
+  - "node_modules/"
+  - ".git/"
+  - "uploads/**"
+  - "logs/**"
+  - "data/**"
+  - "backups/**"
+  - ".env"
+  - "*.swp"
+
+# Security Configuration
+security:
+  authentication:
+    type: "session-based"
+    password_protected: true
+    management_password: "seibu3511"
+
+  validation:
+    sql_injection: true
+    xss_prevention: true
+    csrf_protection: false
+
+  uploads:
+    allowed_types:
+      - "jpg"
+      - "jpeg"
+      - "png"
+      - "gif"
+      - "bmp"
+    max_size: 50000000  # 50MB
+    auto_compress: true
+    compression_quality: 85
+    max_dimensions: 2048
+
+# API Endpoints
+api:
+  base_path: "/api/"
+  endpoints:
+    defects:
+      - "GET /api/defects"
+      - "POST /api/defects"
+      - "PUT /api/defects/:id"
+      - "DELETE /api/defects/:id"
+
+    images:
+      - "POST /api/upload"
+      - "GET /api/images"
+      - "POST /api/images/delete-unused"
+
+    categories:
+      - "GET /api/categories"
+      - "POST /api/categories"
+      - "PUT /api/categories/:id"
+      - "DELETE /api/categories/:id"
+
+    processes:
+      - "GET /api/processes"
+      - "POST /api/processes"
+      - "PUT /api/processes/:id"
+      - "DELETE /api/processes/:id"
+
+    export:
+      - "GET /api/export/csv"
+
+# Frontend Configuration
+frontend:
+  type: "vanilla-javascript"
+  views:
+    - "card"
+    - "list"
+
+  features:
+    search: true
+    filter: true
+    pagination: true
+    pagination_items: 12
+    sorting: true
+    image_upload:
+      drag_drop: true
+      clipboard_paste: true
+      preview: true
+
+# GitHub Integration
+github:
+  enabled: true
+  token_env: "GITHUB_TOKEN"
+  labels:
+    enabled: true
+    auto_create: true
+
+  workflow_files:
+    - ".github/workflows/ci.yml"
+    - ".github/workflows/deploy.yml"
+
+  issues:
+    auto_label: true
+    auto_assign: false
+
+# Testing Configuration
+testing:
+  enabled: true
+  framework: "PHPUnit"
+  test_directory: "tests/"
+  coverage_minimum: 70
+
+  types:
+    - "unit"
+    - "integration"
+    - "api"
+
+# Build & Deployment
+build:
+  scripts:
+    lint: "php -l index.php"
+    test: "phpunit"
+    build: "echo 'Build complete'"
+
+  artifacts:
+    - "*.php"
+    - "*.js"
+    - "*.css"
+
+deployment:
+  environments:
+    development:
+      trigger: "manual"
+      server: "localhost"
+
+    production:
+      trigger: "github-release"
+      server: "Sakura Rental Server"
+      commands:
+        - "chmod 755 uploads/"
+        - "chmod 755 data/"
+        - "mysql < database/schema.sql"
+
+# Logging
+logging:
+  level: "info"
+  directory: "logs/"
+  php_error_log: "logs/error.log"
+  api_log: "logs/api.log"
+
+# Documentation
+documentation:
+  format: "markdown"
+  directory: "docs/"
+  auto_generate: true
+  readme: "CLAUDE.md"
+
+# Status Monitoring
+status:
+  watch_interval: 3000  # milliseconds
+  display_stats: true
+  show_issues: true
+  show_prs: true
